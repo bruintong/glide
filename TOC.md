@@ -1,4 +1,4 @@
-- [开始使用](docs/Getting-Started.md)
+- [入门指南](docs/Getting-Started.md)
 - [Generated API](docs/Generated-API.md)
 - [占位符](docs/Placeholders.md)
 - [选项](docs/Options.md)
