@@ -54,8 +54,11 @@ GlideApp.with(fragment)
 ```
 FAQ
 1. 占位符是异步加载的吗？
+
 答：不是。占位符的加载是在Android的主线程中处理的。我们希望占位符尽可能小并且容易被系统缓存。
 2. Transformations可以作为占位符吗？
+
 答：不行。Transformations只适用于请求资源，不能作为占位符。比如，你加载一个圆形的图片，你可能希望使用圆形的占位符资源。你可以考虑自定义View来截取占位符作为你的Transformations。
 3. 在多个View中可以使用同一个占位符图片吗？
+
 答：通常可以，任何非静态的图片（像BitmapDrawable）是可以的在多个View中显示的。然而有状态的图片在多个View中同时显示是不安全的，因为View的状态会被改变。对于有状态的图片，请使用资源id，或者使用**newDrawable()**传递给每个请求一个新的拷贝。
