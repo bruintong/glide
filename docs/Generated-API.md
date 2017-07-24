@@ -1,8 +1,8 @@
 # Generated API
 Glide v4通过注解处理器生成一个API，允许程序以在一个优雅的API访问[RequestBuilder](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html)、[RequestOptions](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html)的所有选项跟包含的集成库。
 生成的API服务于两个目的：
-1. 集成库可以继承通过Glide的API自定义选项。
-2. 程序可以继承Glide的API添加方法绑定常用的选项。
+1. 集成库可以扩展Glide的API自定义选项。
+2. 程序可以扩展Glide的API添加方法绑定常用的选项。
 虽然这些工作都可以通过手动编写自定义[RequestOptions](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html)子类来实现，但这样做更具有挑战性，并且会产生一个不太优雅的API。
 ## 开始使用
 ### Java
@@ -40,7 +40,9 @@ GlideApp.with(fragment)
 Generated API可以直接调用**fitCenter()**和**placeholder()**方法，而不必作为单独的[RequestOptions](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html)对象传入到**Glide.with()**中。
 ### GlideExtension
 Glide的Generated API可以被程序跟库扩展。扩展使用静态注解的方法添加新的选项，修改已有的选项或者新增类型。
-[GlideExtension](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/annotation/GlideExtension.html)注解标记一个类继承了Glide的API。注解需要出现在任何继承了Glide API的类。如果该注解不存在，那么注解方法会被忽略。
+[GlideExtension](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/annotation/GlideExtension.html)注解标记一个类扩展了Glide的API。注解需要出现在任何扩展了Glide API的类。如果该注解不存在，那么注解方法会被忽略。
+通过GlideExtension注解标记的类被认为是工具类。这些类应该包含私有的空的构造函数，应该是final的并且只包含静态方法，可能包含静态变量跟引用其他类或者对象。
+一个程序可以实现多个GlideExtension注解类。库也可以实现任意数量的GlideExtension注解类。当一个AppGlideModule被找到时，所有的有效的GlideExtensions将被合并到一个的API里。冲突会导致Glide注解处理器错误。
 GlideExtension注解类可以定义两种类型的扩展方法：
 1. [GlideOption]() - 给RequestOptions添加自定义的选项。
 2. [GlideType]() - 添加新的资源类型的支持（GIFs，SVG etc）。
