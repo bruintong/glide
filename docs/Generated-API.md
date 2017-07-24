@@ -44,12 +44,12 @@ Glide的Generated API可以被程序跟库扩展。扩展使用静态注解的�
 通过GlideExtension注解标记的类被认为是工具类。这些类应该包含私有的空的构造函数，应该是final的并且只包含静态方法，可能包含静态变量跟引用其他类或者对象。
 一个程序可以实现多个GlideExtension注解类。库也可以实现任意数量的GlideExtension注解类。当一个AppGlideModule被找到时，所有的有效的GlideExtensions将被合并到一个的API里。冲突会导致Glide注解处理器错误。
 GlideExtension注解类可以定义两种类型的扩展方法：
-1. [GlideOption]() - 给RequestOptions添加自定义的选项。
-2. [GlideType]() - 添加新的资源类型的支持（GIFs，SVG etc）。
+1. [GlideOption](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/annotation/GlideOption.html) - 给RequestOptions添加自定义的选项。
+2. [GlideType](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/annotation/GlideType.html) - 添加新的资源类型的支持（GIFs，SVG etc）。
 ### GlideOption
-[GlideOption]()注解静态方法扩展[RequestOptions]()。**GlideOption**被用在：
+[GlideOption](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/annotation/GlideOption.html)注解静态方法扩展[RequestOptions](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html)。**GlideOption**被用在：
 1. 定义一个在程序中频繁被用到选项组。
-2. 添加新的选项，通常结合Glide的[Option]()类。
+2. 添加新的选项，通常结合Glide的[Option](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/Option.html)类。
 定义选项组，你可以这样写：
 ```
 @GlideExtension
@@ -66,7 +66,7 @@ public class MyAppExtension {
       .override(MINI_THUMB_SIZE);
   }
 ```
-在[RequestOptions]()的子类中生成的方法看起来像这样：
+在[RequestOptions](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html)的子类中生成的方法看起来像这样：
 ```
 public class GlideOptions extends RequestOptions {
   
@@ -77,7 +77,7 @@ public class GlideOptions extends RequestOptions {
   ...
 }
 ```
-你可以在方法包含许多希望添加的参数，只需要保证第一个参数是[RequestOptions]()：
+你可以在方法包含许多希望添加的参数，只需要保证第一个参数是[RequestOptions](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html)：
 ```
 @GlideOption
 public static void miniThumb(RequestOptions options, int size) {
