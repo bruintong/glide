@@ -14,8 +14,30 @@
 #### 丢失尺寸
 如果你确定你确实调用了[into]()或者[submit]()方法，仍然看不到日志信息。那最合理的解释是Glide不能确定你尝试加载的View或者目标的尺寸。
 #### 自定义Target
-如果你使用自定义Target，确保你实现了[getSize]()方法并且调用非0的宽度跟高度的回调或者继承Target的子类，比如说是[ViewTarget]()
+如果你使用自定义Target，确保你实现了[getSize]()方法并且调用非0的宽度跟高度的回调或者继承Target的子类，比如说是[ViewTarget]()它会帮你实现getSize方法。
+#### 视图
+如果你只是加载资源到视图，那最合理的解释是你的视图不是通过布局也不会给予0的宽度或高度。如果视图的可见性被设置为**View.GONE**或者视图没有依附的父元素，那么将不会被显示。如果视图的父元素的宽度跟高度被设置成**wrap_content**或者**match_parent**中的某一个或组合，那么视图可能接收到无效的或者是0的宽度跟高度。你可以尝试给你的视图固定的非0的尺寸或者使用Glide的[override(int, int) API]()给每个请求传递指定的尺寸。
+### 请求监听和自定义日志
+如果你喜欢以编程的方式跟踪错误日志和成功的负载，跟踪你的程序中图片占用缓存的比率或者更好的控制本地日志。你可以使用[RequestListener]()接口。**RequestListener**可以利用[RequestBuilder#listener()]()添加到一个单独的负载中。例如：
+```
+Glide.with(fragment)
+   .load(url)
+   .listener(new RequestListener() {
+       @Override
+       boolean onLoadFailed(@Nullable GlideException e, Object model,
+           Target<R> target, boolean isFirstResource) {
+         // Log errors here.
+       }
 
+       @Override
+       boolean onResourceReady(R resource, Object model, Target<R> target,
+           DataSource dataSource, boolean isFirstResource) {
+         // Log successes here or use DataSource to keep track of cache hits and misses.
+       }
+    })
+    .into(imageView);
+```
+为了减少对象分配，你可以在多个负载中重用**RequestListener**对象。
 
 
 
