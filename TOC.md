@@ -1,3 +1,5 @@
+- [主页](docs/Home.md)
+- [下载和设置](docs/Download-Setup.md)
 - [入门指南](docs/Getting-Started.md)
 - [Generated API](docs/Generated-API.md)
 - [占位符](docs/Placeholders.md)
