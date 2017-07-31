@@ -1,4 +1,4 @@
-# Glide 官方文档中文版
+# Glide v4 中文版
 Glide是Android平台上的一个快速高效的图像加载库，专注于平滑滚动。Glide提供了一个简单易用的API，一个性能可扩展的资源解码管道流和自动资源池。
 ![glide logo](images/glide_logo.png)
 ## 目录
@@ -17,4 +17,5 @@ Glide是Android平台上的一个快速高效的图像加载库，专注于平�
 
 ## 原文地址
 如有任何关于翻译、内容或资源推荐，欢迎通过Github提交PR。
+
 Glide官网：[http://bumptech.github.io/glide/](http://bumptech.github.io/glide/)
