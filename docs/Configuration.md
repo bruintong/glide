@@ -180,19 +180,67 @@ public class YourAppGlideModule extends AppGlideModule {
 
 任意数量的组件可以注册在单一的**GlideModule**。ModelLoader和ResourceDecoder可以有多个相同类型参数的实现类。
 
-注册的组件列表，包括那些Glide默认注册的和那些在模型中注册的定义的负载路径。每个附件路径是一步步模型提供的负载资源类型通过[as()]()指定的类型。负载路径粗略符合下一步骤：
+注册的组件列表，包括那些Glide默认注册的和那些在模型中注册的定义的负载路径。每个附件路径是一步步模型提供的负载资源类型通过[as()](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/RequestManager.html#as-java.lang.Class-)指定的类型。负载路径粗略符合下一步骤：
 1. 模型->数据（由**ModelLoader**处理）
 2. 数据->资源（由**ResourceDecoder**处理）
 3. 资源->转换资源（可选，由**ResourceTranscoder**处理）
+
 **Encoder**第一步时，写入数据到Glide磁盘缓存。**ResourceEncoder**在第二步时，写资源到Glide磁盘缓存。
-当一个请求开启时，Glide将尝试从模型到请求资源的所有可用的路径。如果任何负载路径成功则请求成功。
 
+当一个请求开启时，Glide将尝试从模型到请求资源的所有可用的路径。只要有任何一个负载路径成功则请求成功。只有所有负载路径都失败请求才失败。
 
+注册表中的prepend（），append（）和replace（）方法可用于设置Glide将尝试每个ModelLoader和ResourceDecoder的顺序。通过确保首先注册处理最常见类型的ModelLoaders和ResourceDecoders，可以使请求更高效。组件排序还可以允许您注册处理模型或数据的特定子集的组件（即只有某些类型的Uris或仅某些图像格式），同时还具有附加的全部组件来处理其余部分。
 
+### 模块类和注解
 
+Glide v4依赖于两个类AppGlideModule和LibraryGlideModule来配置Glide单例。允许这两个类注册其他组件，如：ModelLoaders，ResourceDecoders等。只有AppGlideModules允许配置应用程序特定的设置，如缓存实现和大小。
 
+#### AppGlideModule
 
+所有应用程序必须添加AppGlideModule实现，即使应用程序没有更改任何其他设置或在AppGlideModule中实现任何方法。 AppGlideModule实现作为一个信号，允许Glide的注解处理器与所有找到的LibraryGlideModules一起生成单个组合类。
 
+在给定的应用程序中只能有一个AppGlideModule实现（在编译时有多个产生错误）。因此，库绝不能提供AppGlideModule实现。
 
+#### @GlideModule
 
+为了让Glide正确找到AppGlideModule和LibraryGlideModule实现，这两个类的所有实现都必须用@GlideModule注解。注解将允许Glide的注解处理器在编译时发现所有实现。
 
+#### 注解处理器
+
+此外，为了找到AppGlideModule和LibraryGlideModules，所有的库和应用程序还必须包含对Glide的注解处理器的依赖。
+
+### 冲突
+
+应用程序可能依赖于多个库，每个库可能包含一个或多个LibraryGlideModules。在极少数情况下，这些LibraryGlideModule可能定义了冲突的选项，或者包括应用程序希望避免的行为。应用程序可以通过将@Excludes注解添加到其AppGlideModule来解决这些冲突或避免不必要的依赖关系。
+
+例如，如果您依赖于您想要避免的LibraryGlideModule的库，请传入com.example.unwanted.GlideModule：
+```
+@Excludes（ “com.example.unwanted.GlideModule”）
+@GlideModule
+public final class MyAppGlideModule extends AppGlideModule {}
+```
+
+您还可以排除多个模块：
+
+```
+@Excludes（{“com.example.unwanted.GlideModule”，“com.example.conflicing.GlideModule”}）
+@GlideModule
+public final class MyAppGlideModule extends AppGlideModule {}
+```
+
+如果您仍在从Glide v3迁移过程中，可以使用@Excludes来排除LibraryGlideModules和已弃用的GlideModule实现。
+
+### 清单解析
+
+为了保持与Glide v3的GlideModules的向后兼容性，Glide仍然从应用程序和任何包含的库中分析AndroidManifest.xml文件，并将包括清单中列出的任何旧的GlideModules。虽然此功能将在以后的版本中被删除，但我们现在已经保留了行为以减轻转换。
+
+如果您已经迁移到Glide v4 AppGlideModule和LibraryGlideModule，则可以完全禁用清单解析。这样做可以提高Glide的初始启动时间，并避免尝试解析元数据时出现一些潜在的问题。要禁用清单解析，请覆盖AppGlideModule实现中的isManifestParsingEnabled（）方法：
+```
+@GlideModule
+public final class MyAppGlideModule extends AppGlideModule {
+  @Override
+  public boolean isManifestParsingEnabled（）{
+    return false;
+  }
+}
+```

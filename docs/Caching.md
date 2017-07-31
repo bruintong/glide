@@ -24,13 +24,20 @@
 3. 任何添加的选项
 4. 请求类型（Bitmap， GIF等）
 
-用于活跃资源和内存缓存中键跟缓存在磁盘中使用的键有些微不同，如影响bitmap的配置或者解码时间参数。
-为了生成磁盘缓存键的名字，各个元素生成唯一的字符串散列键，然后作为磁盘缓存文件的名称。
+用于活跃资源和内存缓存中键跟缓存在磁盘中的键有些微不同，像那些影响Bitmap的配置或解码时间参数的选项。
+
+为了生成磁盘缓存键的名字，各个元素生成唯一的散列字符串，然后作为磁盘缓存的文件名。
+
 ## 缓存配置
+
 Glide提供了一些选项，允许您选择在Glide的每次基础请求时怎么跟负载交互。
+
 ### 磁盘缓存策略
-使用[diskCacheStrategy]()方法可以为每个请求应用[磁盘缓存策略]()，可用的策略可以防止负载使用或者写入磁盘高速缓存或者选择那些负载返回的未修改原始数据来缓存，或者转换您的负载产生的缩略图，或者两者都具备。
-默认策略，[自动匹配](), 尝试为本地或者远程图像使用最优策略。当您加载远程数据（像从URL加载）时，**自动匹配**只会保存负载返回的未修改的原始数据，因为相比调整磁盘数据的尺寸，下载远程数据更加昂贵。对于本地资源，自动匹配只会存储转换缩略图，因为如果您需要生成缩略图尺寸或者类型，检索原始数据花费更少。
+
+使用[DiskCacheStrategy](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#diskCacheStrategy-com.bumptech.glide.load.engine.DiskCacheStrategy-)方法可以为每个请求应用[磁盘缓存策略](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/DiskCacheStrategy.html)，可用的策略可以防止负载使用或者写入磁盘高速缓存或者选择那些负载返回的未修改原始数据来缓存，或者转换您的负载产生的缩略图，或者两者都具备。
+
+默认策略是[自动匹配](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/DiskCacheStrategy.html#AUTOMATIC)，尝试为本地或者远程图像使用最优策略。当您加载远程数据（如从URL加载）时，**自动匹配**只会保存负载返回的未修改的原始数据，因为相比调整磁盘数据的尺寸，下载远程数据更加昂贵。对于本地资源，自动匹配只会存储转换缩略图，因为如果您需要生成缩略图尺寸或者类型，检索原始数据花费更少。
+
 应用磁盘缓存策略的例子：
 ```
 GlideApp.with(fragment)
@@ -38,30 +45,37 @@ GlideApp.with(fragment)
   .diskCacheStrategy(DiskCacheStrategy.ALL)
   .into(imageView);
 ```
+
 ### 只从缓存中加载
-在一些情况下，如果图像不在缓存中，您可能希望加载失败。因此，您可以在每个基础负载中使用[onlyRetrieveFromCache]()方法：
+
+在一些情况下，如果图像不在缓存中，您可能希望加载失败。因此，您可以在每个基础负载中使用[onlyRetrieveFromCache](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#onlyRetrieveFromCache-boolean-)方法：
 ```
 GlideApp.with(fragment)
   .load(url)
   .onlyRetrieveFromCache(true)
   .into(imageView);
 ```
+
 如果图像可以在内存缓存或者磁盘缓存中找到，那么它会被成功加载。否则，如果选项设置成true，加载会失败。
+
 ### 跳过缓存
-如果您希望确保特定的请求跳过磁盘缓存跟内存缓存，Glide提供了一些替代选择。只是跳过内存缓存，可以使用[skipMemoryCache]()：
+
+如果您希望确保特定的请求跳过磁盘缓存跟内存缓存，Glide提供了一些替代选择。只是跳过内存缓存，可以使用[skipMemoryCache](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#skipMemoryCache-boolean-)：
 ```
 GlideApp.with(fragment)
   .load(url)
   .skipMemoryCache(true)
   .into(view);
 ```
-只是跳过磁盘缓存，使用[DiskCacheStrategy.NONE]()：
+
+只是跳过磁盘缓存，使用[DiskCacheStrategy.NONE](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/DiskCacheStrategy.html#NONE)：
 ```
 GlideApp.with(fragment)
   .load(url)
   .diskCacheStrategy(DiskCacheStrategy.NONE)
   .into(view);
 ```
+
 这些选项可以一起使用：
 ```
 GlideApp.with(fragment)
@@ -70,10 +84,14 @@ GlideApp.with(fragment)
   .skipMemoryCache(true)
   .into(view);
 ```
+
 一般来说，您要尽量避免跳过缓存。从缓存中加载图像要比检索，解码，转换并创建一个新的缩略图快得多。
-如果您想为缓存中的某一项更新条目，您可以查看文档[invalidation]()
+
+如果您想为缓存中的某一项更新条目，您可以查看文档[invalidation](http://bumptech.github.io/glide/doc/caching.html#cache-invalidation)
+
 #### 实现
-如果可用的选项不满足您的需求，您可以自定义您的[DiskCache]()实现。查看[configuration]()获取细节。
+
+如果可用的选项不满足您的需求，您可以自定义您的[DiskCache](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/cache/DiskCache.html)实现。查看[configuration](http://bumptech.github.io/glide/doc/configuration.html#disk-cache)获取细节。
 
 ## 缓存失效
 
@@ -136,21 +154,3 @@ public class IntegerVersionSignature implements Key {
 请记住，为了避免降低性能，您需要在后台批量加载任何版本的元数据，以便在加载图像时可用。
 
 如果一切都失败了，您不能改变标识符也不能跟踪任何版本的元数据，您可以使用[diskCacheStrategy()](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/request/RequestOptions.html#diskCacheStrategy-com.bumptech.glide.load.engine.DiskCacheStrategy-)和[DiskCacheStrategy.NONE](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/DiskCacheStrategy.html#NONE)关闭磁盘缓存。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
