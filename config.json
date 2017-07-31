@@ -1,5 +1,5 @@
 {
-    "name": "Glide 官方文档中文版",
+    "name": "Glide v4 中文版",
     "introduction": "Glide是Android平台上的一个快速高效的图像加载库，专注于平滑滚动。Glide提供了一个简单易用的API，一个性能可扩展的资源解码管道流和自动资源池。",
     "path": {
         "content": "docs"
