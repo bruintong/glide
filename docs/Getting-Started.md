@@ -26,7 +26,7 @@ import com.bumptech.glide.module.AppGlideModule;
 @GlideModule
 public final class MyAppGlideModule extends AppGlideModule {}
 ```
-该API在[AppGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)同一包下生成。默认情况下，类名为GlideApp。使用该API，应用程序可以在所有的负载中用**GlideApp.with()**代替**Glide.with()**。
+默认情况下，生成的API会跟您的[AppGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)实现在同一包下，类名为GlideApp。使用该API，应用程序可以在所有的负载中用**GlideApp.with()**代替**Glide.with()**。
 ```
 GlideApp.with(fragment)
    .load(myUrl)
