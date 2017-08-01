@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import com.bruintong.glide.R;
 
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by tangweixiong on 2017/8/1.
  */
@@ -16,13 +19,13 @@ import com.bruintong.glide.R;
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>  {
 
     private Context context;
-    private String[] data;
+    private String[] titles;
 
     private OnItemClickListener mOnItemClickListener;
 
-    public HomeAdapter(Context context, String[] data) {
+    public HomeAdapter(Context context, String[] titles) {
         this.context = context;
-        this.data = data;
+        this.titles = titles;
     }
 
     @Override
@@ -34,7 +37,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        holder.mTextName.setText(data[position]);
+        holder.mTextName.setText(titles[position]);
         if(mOnItemClickListener != null) {
             holder.mItemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -55,7 +58,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return titles.length;
     }
 
     public interface OnItemClickListener {
