@@ -3,6 +3,8 @@ _book
 
 .sync/*
 
+.idea/*
+
 .me_configs.data
 
 .md_configs.data
