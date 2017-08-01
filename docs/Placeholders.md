@@ -70,7 +70,7 @@ GlideApp.with(fragment)
 ```
 
 占位符的显示流程可以参照下图：
-![](../images/placeho)
+![](../images/placeholder_flow.png)
 
 ## 常见问题
 1. 占位符是异步加载的吗？
