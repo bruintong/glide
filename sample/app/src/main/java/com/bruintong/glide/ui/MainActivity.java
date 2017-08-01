@@ -1,21 +1,24 @@
 package com.bruintong.glide.ui;
 
-import android.content.Context;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.bruintong.glide.R;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private RecyclerView mRecyclerView;
 
     private String[] names = {"A", "B", "C"};
+
+    private HomeAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,53 +27,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new MyAdapter(this, names));
-    }
-
-
-
-    private class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-
-        private Context context;
-        private String[] data;
-
-        public MyAdapter(Context context, String[] data) {
-            this.context = context;
-            this.data = data;
-        }
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
-            MyViewHolder viewHolder = new MyViewHolder(view);
-            return viewHolder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.mText.setText(data[position]);
-            holder.mText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-        }
-
-        @Override
-        public int getItemCount() {
-            return data.length;
-        }
-
-        class MyViewHolder extends RecyclerView.ViewHolder {
-
-            private TextView mText;
-
-            public MyViewHolder(View itemView) {
-                super(itemView);
-                mText = (TextView) itemView.findViewById(R.id.name);
+        mAdapter = new HomeAdapter(this, names);
+        mAdapter.setOnItemClickListener(new HomeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Log.d(TAG, position + " : " + view.toString() + " click.");
             }
-        }
+
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Log.d(TAG, position + " : " + view.toString() + " long click.");
+            }
+        });
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
 
