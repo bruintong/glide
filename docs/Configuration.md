@@ -25,14 +25,14 @@ public final class OkHttpLibraryGlideModule extends LibraryGlideModule {
 compile 'com.github.bumptech.glide:annotations:4.0.0-RC1'
 ```
 
-### 应用
+### 应用程序
 
-应用必须：
+应用程序必须：
 1. 添加一个合适的[AppGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)实现
 2. 添加一个或多个[LibraryGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/LibraryGlideModule.html)实现
 3. 给[AppGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)实现类和所有的[LibraryGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/LibraryGlideModule.html)实现类添加[@GlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/annotation/GlideModule.html)注解
 4. 添加Glide注解处理类依赖关系
-5. 为[AppGlideModules](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)添加混淆保持
+5. 为[AppGlideModules](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)添加proguard.cfg的keep
 
 在Glide的[Flickr sample app](https://github.com/bumptech/glide/blob/master/samples/flickr/src/main/java/com/bumptech/glide/samples/flickr/FlickrGlideModule.java)的一个[AppGlideModule](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/module/AppGlideModule.html)例子：
 ```
@@ -59,13 +59,13 @@ annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0-RC1'
 
 ## 应用选项
 
-Glide允许应用使用AppGlideModule实现完全控制Glide的内存跟磁盘缓存用法。Glide尝试给大多数应用提供合理的默认值，但是对于某些应用，需要自定义这些值。一定要衡量避免任何性能下降的改变。
+Glide允许应用程序使用AppGlideModule实现完全控制Glide的内存跟磁盘缓存用法。Glide尝试给大多数应用程序提供合理的默认值，但是对于某些应用程序，需要自定义这些值。一定要衡量避免任何性能下降的修改。
 
 ### 内存缓存
 
 默认情况下，Glide使用[LruResourceCache](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/cache/LruResourceCache.html)，一个内存缓存接口的默认实现使用固定的内存和LRU算法。[LruResourceCache](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/cache/LruResourceCache.html)的大小由Glide的[MemorySizeCalculator](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/cache/MemorySizeCalculator.html)类决定，它可以查看设备内存是否不足以及屏幕的分辨率。
 
-应用可以在AppGlideModule类的applyOptions(Context, GlideBuilder)方法中配置MemorySizeCalculator定制化内存缓存的大小。
+应用程序可以在AppGlideModule类的applyOptions(Context, GlideBuilder)方法中配置MemorySizeCalculator定制化内存缓存的大小。
 ```
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -79,7 +79,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-应用可以直接覆盖缓存大小：
+应用程序可以直接覆盖缓存大小：
 ```
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -91,7 +91,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-应用可以提供他们自己的内存缓存实现类：
+应用程序可以提供他们自己的内存缓存实现类：
 ```
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -117,7 +117,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-程序可以改变磁盘缓存大小，不管是内部的还是外部的：
+应用程序可以改变磁盘缓存大小，不管是内部的还是外部的：
 ```
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -129,7 +129,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-程序可以改变外部存储或者内部存储的缓存文件夹的名字：
+应用程序可以改变外部存储或者内部存储的缓存文件夹的名字：
 ```
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -142,7 +142,7 @@ public class YourAppGlideModule extends AppGlideModule {
 }
 ```
 
-程序可以选择实现DiskCache接口并提供他们自己的[DiskCache.Factory](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/cache/DiskCache.Factory.html)实例。Glide使用工厂接口在后台线程开启磁盘缓存。缓存可以做I/O操作。例如：检查目标目录的存在没有违反在严格模式。
+应用程序可以选择实现DiskCache接口并提供他们自己的[DiskCache.Factory](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/load/engine/cache/DiskCache.Factory.html)实例。Glide使用工厂接口在后台线程开启磁盘缓存。缓存可以做I/O操作。例如：检查目标目录的存在没有违反在严格模式。
 ```
 @GlideModule
 public class YourAppGlideModule extends AppGlideModule {
@@ -160,7 +160,7 @@ public class YourAppGlideModule extends AppGlideModule {
 
 ### 注册组件
 
-应用和库都可以注册一些继承Glide方法的组件，可用的组件包括：
+应用程序和库都可以注册一些继承Glide方法的组件，可用的组件包括：
 1. ModelLoader加载自定义模型（URL， URI， 任意的POJO）和数据（输入流，文件描述）
 2. ResourceDecoder解码新的资源（Drawable，Bitmap）或者新的数据类型（输入流，文件描述）
 3. Encoder写数据（输入流，文件描述）Glide的磁盘缓存
@@ -189,7 +189,7 @@ public class YourAppGlideModule extends AppGlideModule {
 
 当一个请求开启时，Glide将尝试从模型到请求资源的所有可用的路径。只要有任何一个负载路径成功则请求成功。只有所有负载路径都失败请求才失败。
 
-注册表中的prepend（），append（）和replace（）方法可用于设置Glide将尝试每个ModelLoader和ResourceDecoder的顺序。通过确保首先注册处理最常见类型的ModelLoaders和ResourceDecoders，可以使请求更高效。组件排序还可以允许您注册处理模型或数据的特定子集的组件（即只有某些类型的Uris或仅某些图像格式），同时还具有附加的全部组件来处理其余部分。
+注册表中的prepend()，append()和replace()方法可用于设置Glide将尝试每个ModelLoader和ResourceDecoder的顺序。通过确保首先注册处理最常见类型的ModelLoaders和ResourceDecoders，可以使请求更高效。组件排序还可以允许您注册处理模型或数据的特定子集的组件（即只有某些类型的Uris或仅某些图像格式），同时还具有附加的全部组件来处理其余部分。
 
 ### 模块类和注解
 
@@ -234,7 +234,7 @@ public final class MyAppGlideModule extends AppGlideModule {}
 
 为了保持与Glide v3的GlideModules的向后兼容性，Glide仍然从应用程序和任何包含的库中分析AndroidManifest.xml文件，并将包括清单中列出的任何旧的GlideModules。虽然此功能将在以后的版本中被删除，但我们现在已经保留了行为以减轻转换。
 
-如果您已经迁移到Glide v4 AppGlideModule和LibraryGlideModule，则可以完全禁用清单解析。这样做可以提高Glide的初始启动时间，并避免尝试解析元数据时出现一些潜在的问题。要禁用清单解析，请覆盖AppGlideModule实现中的isManifestParsingEnabled（）方法：
+如果您已经迁移到Glide v4 AppGlideModule和LibraryGlideModule，则可以完全禁用清单解析。这样做可以提高Glide的初始启动时间，并避免尝试解析元数据时出现一些潜在的问题。要禁用清单解析，请覆盖AppGlideModule实现中的isManifestParsingEnabled()方法：
 ```
 @GlideModule
 public final class MyAppGlideModule extends AppGlideModule {

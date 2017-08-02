@@ -53,7 +53,7 @@ GlideApp.with(fragment)
 
 使用生成的API：
 ```
-Glide.with(fragment)
+GlideApp.with(fragment)
   .load(url)
   .transform(new MultiTransformation(new FitCenter(), new YourCustomTransformation())
   .into(imageView);
