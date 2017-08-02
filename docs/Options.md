@@ -70,15 +70,15 @@ Glide.with(fragment)
 - 任何您想申请的**RequestOption**对象
 - 任何您想申请的**TransitionOption**对象
 - 任何您想加载的缩略图
-- 
-每次调用**Glide.with()**您都会产生一个**RequestBuilder**对象：
+
+每次调用**Glide.with()**您都会产生一个**RequestManager**对象：
 ```
-RequestBuilder<Drawable> requestBuilder = Glide.with(fragment);
+RequestManager requestManager = Glide.with(this);
 ```
 
 ### 选择资源类型
 
-**RequestBuilders**可以指定加载的资源类型。默认情况下，获取的是Drawable RequestBuilder。您可以使用**as...**方法改变请求类型。例如，您可以调用**asBitmap()**您将获取一个**Bitmap RequestBuilder**。
+**RequestManager**可以指定加载的资源类型。默认情况下，获取的是Drawable RequestBuilder。您可以使用**as...**方法改变请求类型。例如，您可以调用**asBitmap()**您将获取一个**Bitmap RequestBuilder**。
 ```
 RequestBuilder<Bitmap> requestBuilder = Glide.with(fragment).asBitmap();
 ```
@@ -87,7 +87,7 @@ RequestBuilder<Bitmap> requestBuilder = Glide.with(fragment).asBitmap();
 
 如上所示，通过[apply()](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#apply-com.bumptech.glide.request.RequestOptions-)方法应用**请求选项**，使用[transition()](http://bumptech.github.io/glide/javadocs/400/com/bumptech/glide/RequestBuilder.html#transition-com.bumptech.glide.TransitionOptions-)方法应用**过渡选项**：
 ```
-RequestBuilder<Drawable> requestBuilder = Glide.with(fragment);
+RequestBuilder<Drawable> requestBuilder = Glide.with(this).asDrawable();
 requestBuilder.apply(requestOptions);
 requestBuilder.transition(transitionOptions);
 ```
